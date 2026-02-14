@@ -14,7 +14,7 @@ module Prolog
 
     def hoge?(value)
       @assertions[:hoge].each do |v|
-        if value == v
+        if matched?(value, v)
           log_true "hoge(#{v})"
           return true
         end
@@ -38,5 +38,14 @@ module Prolog
       full_label = caller_locations[1].label
       full_label[/([^#]+)$/, 1]
     end
+
+    def matched?(expected, tested)
+      return true if expected.is_a?(Variable)
+
+      expected == tested
+    end
+  end
+
+  class Variable
   end
 end
