@@ -16,7 +16,7 @@ module Prolog
       @assertions[:hoge].each do |v|
         if matched?(value, v)
           log_true "hoge(#{v})"
-          return true
+          return true if confirm?
         end
       end
 
@@ -43,6 +43,12 @@ module Prolog
       return true if expected.is_a?(Variable)
 
       expected == tested
+    end
+
+    def confirm?
+      puts '  --> finish? [y/N]'
+      input = gets.chomp.downcase
+      input == 'y'
     end
   end
 
