@@ -1,25 +1,9 @@
 # frozen_string_literal: true
 
-@assertions = {}
+require_relative 'lib/prolog'
 
-def hoge(value)
-  @assertions[:hoge] ||= []
+facts = Prolog::Facts.new
 
-  @assertions[:hoge].push value
-end
-
-def hoge?(value)
-  @assertions[:hoge].each do |v|
-    if value == v
-      puts "[#{__method__}] TURE: -> hoge(#{v})"
-      return true
-    end
-  end
-
-  puts "[#{__method__}] FALSE: arg=#{value}"
-  false
-end
-
-hoge(1)
-hoge?(1)
-hoge?(2)
+facts.hoge(1)
+facts.hoge?(1)
+facts.hoge?(2)
