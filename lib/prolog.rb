@@ -15,13 +15,28 @@ module Prolog
     def hoge?(value)
       @assertions[:hoge].each do |v|
         if value == v
-          puts "[#{__method__}] TURE: -> hoge(#{v})"
+          log_true "hoge(#{v})"
           return true
         end
       end
 
-      puts "[#{__method__}] FALSE: arg=#{value}"
+      log_false value
       false
+    end
+
+    private
+
+    def log_true(matched)
+      puts "[#{caller_name}] TURE: -> #{matched}"
+    end
+
+    def log_false(arg)
+      puts "[#{caller_name}] FALSE: arg=#{arg}"
+    end
+
+    def caller_name
+      full_label = caller_locations[1].label
+      full_label[/([^#]+)$/, 1]
     end
   end
 end
