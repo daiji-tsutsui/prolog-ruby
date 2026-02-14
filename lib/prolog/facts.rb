@@ -40,7 +40,10 @@ module Prolog
     end
 
     def matched?(expected, tested)
-      return true if expected.is_a?(Variable)
+      if expected.is_a?(Variable)
+        expected.match(tested)
+        return true
+      end
 
       expected == tested
     end

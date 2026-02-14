@@ -7,8 +7,13 @@ facts = Prolog::Facts.new
 facts.hoge(1)
 facts.hoge(3)
 
-facts.hoge?(1)
-facts.hoge?(2)
+# facts.hoge?(1)
+# facts.hoge?(2)
 
-X = Prolog::Variable.new
-facts.hoge?(X)
+# X = Prolog::Variable.new
+# facts.hoge?(X)
+
+rule = Prolog::Rule.new(facts)
+rule.fuga?(1)
+Y = Prolog::Variable.new
+rule.fuga?(Y) # FIXME: backtrackが早すぎる
