@@ -13,7 +13,14 @@ facts.hoge(3)
 # X = Prolog::Variable.new
 # facts.hoge?(X)
 
-rule = Prolog::Rule.new(facts)
-rule.fuga?(1)
+X1 = Prolog::Expression::Variable.new
+fuga = Prolog::Rule.new('fuga', facts, {
+  1 => [ { predicate: :hoge?, args: [1] } ],
+  X1 => [
+    { predicate: :hoge?, args: [X1] },
+    { predicate: :hoge?, args: [X1 - 2] },
+  ]
+})
+fuga.ok?(1)
 Y = Prolog::Variable.new
-rule.fuga?(Y) # FIXME: backtrackが早すぎる
+fuga.ok?(Y) # FIXME: backtrackが早すぎる
