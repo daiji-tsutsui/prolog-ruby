@@ -12,23 +12,21 @@ module Prolog
         if matched?(value, arg)
           log_true "#{@name}(#{arg})"
 
-          expressions.each do |expr|
-            next if expr[:predicate].is_a?(TrueClass)
-
-            if expr[:predicate].is_a?(FalseClass)
-              log_false value
-              return false
+          is_all_ok = expressions.all? do |expr|
+            pred = expr[:predicate]
+            case pred
+            when true then true
+            when false then false
+            else pred.ok?(*expr[:args])
             end
-
-            next if expr[:predicate].ok?(*expr[:args])
           end
 
-          return true if confirm?
-        end
+          return true if is_all_ok && confirm?
 
-        log_false value
-        return false
+          log_false value
+        end
       end
+      false
     end
 
     private
