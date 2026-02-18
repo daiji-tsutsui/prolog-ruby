@@ -2,23 +2,23 @@
 
 require_relative 'lib/prolog'
 
-facts = Prolog::Facts.new
+hoge = Prolog::Rule.new('hoge', {
+  1 => [ { predicate: true, args: [] } ],
+  3 => [ { predicate: true, args: [] } ],
+})
 
-facts.hoge(1)
-facts.hoge(3)
+hoge.ok?(1)
+hoge.ok?(2)
 
-# facts.hoge?(1)
-# facts.hoge?(2)
-
-# X = Prolog::Variable.new
-# facts.hoge?(X)
+X = Prolog::Variable.new
+hoge.ok?(X)
 
 X1 = Prolog::Expression::Variable.new
-fuga = Prolog::Rule.new('fuga', facts, {
-  1 => [ { predicate: :hoge?, args: [1] } ],
+fuga = Prolog::Rule.new('fuga', {
+  1 => [ { predicate: hoge, args: [1] } ],
   X1 => [
-    { predicate: :hoge?, args: [X1] },
-    { predicate: :hoge?, args: [X1 - 2] },
+    { predicate: hoge, args: [X1] },
+    { predicate: hoge, args: [X1 - 2] },
   ]
 })
 fuga.ok?(1)
