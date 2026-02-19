@@ -4,16 +4,31 @@ module Prolog
   class Variable
     def initialize
       @value = nil
+      @substitutes = []
     end
 
     def match(value)
-      @value ||= value
-      return @value.match(value) if @value.is_a?(Variable)
+      if @value.nil?
+        @value = value
+        return true
+      end
 
-      return value.match(@value) if value.is_a?(Variable)
+      if @value.is_a?(Variable)
+        @substitutes.push(@value)
+        return @value.match(value)
+      elsif value.is_a?(Variable)
+        @substitutes.push(value)
+        return value.match(@value)
+      end
 
       log_comparison value
       @value == value
+    end
+
+    def backtrack
+      @substitutes.each { |var| var.backtrack }
+      @substitutes = []
+      @value = nil
     end
 
     def -(other)

@@ -5,6 +5,7 @@ module Prolog
     def initialize(name, assertions)
       @name = name
       @assertions = assertions
+      @substitutes = []
     end
 
     def ok?(value)
@@ -43,6 +44,7 @@ module Prolog
       end
 
       if expected.is_a?(Variable)
+        @substitutes.push(expected)
         return expected.match(tested)
       end
 
@@ -50,7 +52,8 @@ module Prolog
     end
 
     def backtrack
-      # reset variables
+      @substitutes.each { |var| var.backtrack }
+      @substitutes = []
     end
 
     def log_true(matched)
