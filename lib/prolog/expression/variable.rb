@@ -3,17 +3,10 @@
 module Prolog
   module Expression
     class Variable
+      attr_reader :value
+
       def initialize
-        @value = nil
-      end
-
-      def match(value)
-        if (@value.is_a?(Prolog::Variable))
-          @value.match(value)
-          return
-        end
-
-        @value = value
+        @value = Prolog::Variable.new
       end
 
       def -(other)
