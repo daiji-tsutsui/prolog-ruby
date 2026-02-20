@@ -46,6 +46,7 @@ module Prolog
     end
 
     def log_test(value)
+      value = value.value if value.is_a?(Expression::Variable)
       puts indent + "[TEST] #{@name}?(#{value})"
     end
 

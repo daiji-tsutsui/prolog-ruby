@@ -21,7 +21,6 @@ module Prolog
         return value.match(@value)
       end
 
-      log_comparison value
       @value == value
     end
 
@@ -33,12 +32,6 @@ module Prolog
 
     def -(other)
       @value - other
-    end
-
-    private
-
-    def log_comparison(value)
-      puts "[#{self.class}] -- #{@value} <-> #{value} (#{self})"
     end
   end
 end
