@@ -5,7 +5,7 @@ require_relative 'lib/prolog'
 hoge = Prolog::Rule.new('hoge', {
   1 => [ { predicate: true, args: [] } ],
   3 => [ { predicate: true, args: [] } ],
-})
+}).generate
 
 hoge.ok?(1)
 hoge.ok?(2)
@@ -20,7 +20,7 @@ fuga = Prolog::Rule.new('fuga', {
     { predicate: hoge, args: [X1] },
     { predicate: hoge, args: [X1 - 2] },
   ]
-})
+}).generate
 fuga.ok?(1)
 Y = Prolog::Variable.new
 fuga.ok?(Y) # FIXME: backtrackが早すぎる

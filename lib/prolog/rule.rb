@@ -8,6 +8,10 @@ module Prolog
       @substitutes = []
     end
 
+    def generate
+      Predicate.new(self)
+    end
+
     def ok?(value)
       @assertions.each do |arg, expressions|
         matched = match(value, arg)
