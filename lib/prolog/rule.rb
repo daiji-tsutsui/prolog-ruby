@@ -9,9 +9,7 @@ module Prolog
       @goals = goals
     end
 
-    def ok?(value)
-      log_true "#{@name}(#{@key})"
-
+    def ok?
       is_all_ok = @goals.all? do |goal|
         pred = goal[:predicate]
         case pred
@@ -20,25 +18,15 @@ module Prolog
         else pred.ok?(*goal[:args])
         end
       end
-
       return true if is_all_ok && confirm?
 
-      log_false value
       false
     end
 
     private
 
-    def log_true(matched)
-      puts "[#{@name}?] TURE: -> #{matched}"
-    end
-
-    def log_false(arg)
-      puts "[#{@name}?] FALSE: arg=#{arg}"
-    end
-
     def confirm?
-      puts '  --> finish? [y/N]'
+      print '--> finish? [y/N]'
       input = gets.chomp.downcase
       input == 'y'
     end

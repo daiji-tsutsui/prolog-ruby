@@ -9,12 +9,16 @@ module Prolog
     end
 
     def ok?(value)
+      log_test value
       @rules.each do |rule|
         matched = match(value, rule)
-        is_ok = matched && rule.ok?(value)
+        is_ok = matched && rule.ok?
+
+        log_true value if is_ok
 
         backtrack unless is_ok
       end
+      log_false value
       false
     end
 
@@ -26,15 +30,38 @@ module Prolog
 
       if expected.is_a?(Variable)
         @substitutes.push(expected)
+        log_match expected, tested
         return expected.match(tested)
       end
 
+      log_match expected, tested
       expected == tested
     end
 
     def backtrack
       @substitutes.each(&:backtrack)
       @substitutes = []
+    end
+
+    def log_test(value)
+      puts indent + "[TEST] #{@name}?(#{value})"
+    end
+
+    def log_false(value)
+      puts indent + "[FALSE] #{@name}?(#{value}) <--"
+    end
+
+    def log_true(value)
+      puts indent + "[TRUE] #{@name}?(( #{value.inspect} ))"
+    end
+
+    def log_match(expected, tested)
+      puts indent + "[UNIF] #{expected} <--> #{tested}"
+    end
+
+    def indent
+      depth = caller.count { |line| line =~ /#{self.class.name}#ok/ }
+      '  ' * depth
     end
   end
 end
