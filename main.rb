@@ -2,10 +2,10 @@
 
 require_relative 'lib/prolog'
 
-hoge = Prolog::Rule.new('hoge', {
-  1 => [ { predicate: true, args: [] } ],
-  3 => [ { predicate: true, args: [] } ],
-}).generate
+hoge = Prolog::Predicate.new('hoge', [
+  { key: 1, goals: [{ predicate: true, args: [] }] },
+  { key: 3, goals: [{ predicate: true, args: [] }] },
+])
 
 hoge.ok?(1)
 hoge.ok?(2)
@@ -14,13 +14,16 @@ X = Prolog::Variable.new
 hoge.ok?(X)
 
 X1 = Prolog::Expression::Variable.new
-fuga = Prolog::Rule.new('fuga', {
-  1 => [ { predicate: hoge, args: [1] } ],
-  X1 => [
-    { predicate: hoge, args: [X1] },
-    { predicate: hoge, args: [X1 - 2] },
-  ]
-}).generate
+fuga = Prolog::Predicate.new('fuga', [
+  { key: 1, goals: [{ predicate: hoge, args: [1] }] },
+  {
+    key: X1,
+    goals: [
+      { predicate: hoge, args: [X1] },
+      { predicate: hoge, args: [X1 - 2] },
+    ],
+  },
+])
 fuga.ok?(1)
 Y = Prolog::Variable.new
-fuga.ok?(Y) # FIXME: backtrackが早すぎる
+fuga.ok?(Y)

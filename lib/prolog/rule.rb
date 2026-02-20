@@ -2,37 +2,22 @@
 
 module Prolog
   class Rule
-    def initialize(name, assertions)
-      @name = name
-      @assertions = assertions
-      @substitutes = []
-    end
+    attr_reader :key, :goals
 
-    def generate
-      Predicate.new(self)
+    def initialize(key:, goals:)
+      @key = key
+      @goals = goals
     end
 
     def ok?(value)
-      @assertions.each do |arg, expressions|
-        matched = match(value, arg)
-        is_ok = matched && check(value, arg, expressions)
+      log_true "#{@name}(#{@key})"
 
-        backtrack unless is_ok
-      end
-      false
-    end
-
-    private
-
-    def check(value, arg, expressions)
-      log_true "#{@name}(#{arg})"
-
-      is_all_ok = expressions.all? do |expr|
-        pred = expr[:predicate]
+      is_all_ok = @goals.all? do |goal|
+        pred = goal[:predicate]
         case pred
         when true then true
         when false then false
-        else pred.ok?(*expr[:args])
+        else pred.ok?(*goal[:args])
         end
       end
 
@@ -42,23 +27,7 @@ module Prolog
       false
     end
 
-    def match(expected, tested)
-      if tested.is_a?(Expression::Variable)
-        tested = tested.value
-      end
-
-      if expected.is_a?(Variable)
-        @substitutes.push(expected)
-        return expected.match(tested)
-      end
-
-      expected == tested
-    end
-
-    def backtrack
-      @substitutes.each { |var| var.backtrack }
-      @substitutes = []
-    end
+    private
 
     def log_true(matched)
       puts "[#{@name}?] TURE: -> #{matched}"
