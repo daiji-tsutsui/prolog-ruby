@@ -7,6 +7,9 @@ Layout/LineLength:
   Exclude:
     - '*.gemspec'
 
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
 Style/Documentation:
   Enabled: false
 
@@ -20,3 +23,7 @@ Metrics/BlockLength:
   Exclude:
     - '*.gemspec'
     - 'spec/**/*'
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+  Max: 15

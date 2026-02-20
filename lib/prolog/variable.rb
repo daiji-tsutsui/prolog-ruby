@@ -26,7 +26,7 @@ module Prolog
     end
 
     def backtrack
-      @substitutes.each { |var| var.backtrack }
+      @substitutes.each(&:backtrack)
       @substitutes = []
       @value = nil
     end

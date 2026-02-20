@@ -9,7 +9,7 @@ module Prolog
         @value = Prolog::Variable.new
       end
 
-      def -(other)
+      def -(_other)
         self
       end
     end
