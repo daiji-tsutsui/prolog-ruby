@@ -26,6 +26,8 @@ module Prolog
 
     def match(expected, tested_rule)
       tested = tested_rule.key
+
+      expected = expected.value if expected.is_a?(Expression::Variable)
       tested = tested.value if tested.is_a?(Expression::Variable)
 
       if expected.is_a?(Variable)
