@@ -12,18 +12,7 @@ module Prolog
 
     # All goals are OK
     def ok?
-      is_all_ok = @goal_head.ok?
-      return true if is_all_ok && confirm?
-
-      false
-    end
-
-    private
-
-    def confirm?
-      print '--> finish? [y/N]'
-      input = gets.chomp.downcase
-      input == 'y'
+      @goal_head.ok?
     end
   end
 end

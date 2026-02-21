@@ -13,7 +13,7 @@ module Prolog
       log_test value
       @rules.each do |rule|
         matched = match(value, rule)
-        is_ok = matched && rule.ok?
+        is_ok = matched && rule.ok? && confirm?
 
         log_true value if is_ok
 
@@ -66,6 +66,12 @@ module Prolog
     def indent
       depth = caller.count { |line| line =~ /#{self.class.name}#ok/ }
       '  ' * depth
+    end
+
+    def confirm?
+      print '--> finish? [y/N]'
+      input = gets.chomp.downcase
+      input == 'y'
     end
   end
 end
