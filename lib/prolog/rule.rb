@@ -6,12 +6,13 @@ module Prolog
 
     def initialize(key:, goals:)
       @key = key
-      @goals = goals.map { |g| Goal.new(**g) }
+      goal = goals.shift
+      @goal_head = Goal.new(**goal, succeedings: goals)
     end
 
     # All goals are OK
     def ok?
-      is_all_ok = @goals.all?(&:ok?)
+      is_all_ok = @goal_head.ok?
       return true if is_all_ok && confirm?
 
       false
