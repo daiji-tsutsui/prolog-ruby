@@ -11,15 +11,17 @@ module Prolog
       end
 
       def test(value)
-        value = value.value if value.is_a?(Expression::Variable)
+        value = extract(value)
         puts indent + "[TEST] #{@name}?(#{value})"
       end
 
       def false(value)
+        value = extract(value)
         puts indent + "[FALSE] #{@name}?(#{value}) <--"
       end
 
       def true(value)
+        value = extract(value)
         puts indent + "[TRUE] #{@name}?(( #{value.inspect} ))"
       end
 
@@ -36,6 +38,12 @@ module Prolog
         print '--> finish? [y/N]'
         input = gets.chomp.downcase
         input == 'y'
+      end
+
+      private
+
+      def extract(value)
+        value.is_a?(Expression::Variable) ? value.value : value
       end
     end
   end

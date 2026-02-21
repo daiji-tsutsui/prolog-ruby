@@ -13,11 +13,11 @@ module Prolog
       @logger.test value
       @rules.each do |rule|
         matched = match(value, rule)
-        is_ok = matched && rule.ok? && @logger.confirm?
+        is_ok = matched && rule.ok?
 
         @logger.true value if is_ok
 
-        backtrack unless is_ok
+        backtrack unless is_ok && @logger.confirm?
       end
       @logger.false value
       false
