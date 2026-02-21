@@ -36,6 +36,8 @@ module Prolog
         @logger.match expected, tested
         return expected.match(tested)
       end
+      # 1 <--> X に未対応
+      # cutを先に実装しないと危険
 
       @logger.match expected, tested
       expected == tested
