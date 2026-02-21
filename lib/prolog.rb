@@ -2,6 +2,7 @@
 
 module Prolog
   require_relative 'prolog/variable'
+  require_relative 'prolog/goal'
   require_relative 'prolog/rule'
   require_relative 'prolog/predicate'
   require_relative 'prolog/expression/variable'

@@ -2,22 +2,16 @@
 
 module Prolog
   class Rule
-    attr_reader :key, :goals
+    attr_reader :key
 
     def initialize(key:, goals:)
       @key = key
-      @goals = goals
+      @goals = goals.map { |g| Goal.new(**g) }
     end
 
+    # All goals are OK
     def ok?
-      is_all_ok = @goals.all? do |goal|
-        pred = goal[:predicate]
-        case pred
-        when true then true
-        when false then false
-        else pred.ok?(*goal[:args])
-        end
-      end
+      is_all_ok = @goals.all?(&:ok?)
       return true if is_all_ok && confirm?
 
       false

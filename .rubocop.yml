@@ -26,4 +26,3 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
-  Max: 15

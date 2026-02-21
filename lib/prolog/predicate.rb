@@ -8,6 +8,7 @@ module Prolog
       @substitutes = []
     end
 
+    # Some rule is OK
     def ok?(value)
       log_test value
       @rules.each do |rule|
