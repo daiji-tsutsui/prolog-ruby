@@ -13,13 +13,7 @@ module Prolog
         return true
       end
 
-      if @value.is_a?(Variable)
-        @substitutes.push(@value)
-        return @value.match(value)
-      elsif value.is_a?(Variable)
-        @substitutes.push(value)
-        return value.match(@value)
-      end
+      return match_recursive(value) if @value.is_a?(Variable) || value.is_a?(Variable)
 
       @value == value
     end
@@ -32,6 +26,18 @@ module Prolog
 
     def -(other)
       @value - other
+    end
+
+    private
+
+    def match_recursive(value)
+      if @value.is_a?(Variable)
+        @substitutes.push(@value)
+        @value.match(value)
+      elsif value.is_a?(Variable)
+        @substitutes.push(value)
+        value.match(@value)
+      end
     end
   end
 end
