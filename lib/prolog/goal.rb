@@ -9,22 +9,27 @@ module Prolog
       @next = Goal.new(**next_goal, succeedings: succeedings) if next_goal
     end
 
-    def ok?
-      return false unless evaluate?
+    def ok?(&)
+      return @predicate if boolean?
+      return confirm(&) if confirm?
 
-      return true if @next.nil?
-
-      @next.ok?
+      @predicate.ok?(*@args) { @next.nil? || @next.ok? }
     end
 
     private
 
-    def evaluate?
-      case @predicate
-      when true then true
-      when false then false
-      else @predicate.ok?(*@args)
-      end
+    def boolean?
+      @predicate.is_a?(TrueClass) || @predicate.is_a?(FalseClass)
+    end
+
+    def confirm?
+      @predicate == :confirm
+    end
+
+    def confirm
+      return yield if block_given?
+
+      Util::Stdout.new.confirm?
     end
   end
 end

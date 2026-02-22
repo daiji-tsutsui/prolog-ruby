@@ -9,15 +9,15 @@ module Prolog
     end
 
     # Some rule is OK
-    def ok?(value)
+    def ok?(value, &)
       @logger.test value
       @rules.each do |rule|
         matched = match(value, rule)
-        is_ok = matched && rule.ok?
+        is_ok = matched && rule.ok?(&)
 
         @logger.true value if is_ok
 
-        backtrack unless is_ok && @logger.confirm?
+        backtrack unless is_ok
       end
       @logger.false value
       false
