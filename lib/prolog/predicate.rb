@@ -15,9 +15,12 @@ module Prolog
         matched = match(value, rule)
         is_ok = matched && rule.ok?(&)
 
-        @logger.true value if is_ok
+        if is_ok
+          @logger.true value
+          return true
+        end
 
-        backtrack unless is_ok
+        backtrack
       end
       @logger.false value
       false
