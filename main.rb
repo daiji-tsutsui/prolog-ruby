@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 
-require_relative 'lib/prolog'
+$LOAD_PATH.unshift(File.expand_path('lib', __dir__))
+require 'prolog'
 
 hoge = Prolog::Predicate.new('hoge', [
   { key: 1, goals: [{ predicate: true, args: [] }] },
   { key: 3, goals: [{ predicate: true, args: [] }] },
 ])
-
-hoge.ok?(1)
-hoge.ok?(2)
-
-X = Prolog::Variable.new
-hoge.ok?(X)
 
 X1 = Prolog::Expression::Variable.new
 fuga = Prolog::Predicate.new('fuga', [
