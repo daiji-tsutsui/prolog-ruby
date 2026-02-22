@@ -7,6 +7,7 @@ RSpec.describe Prolog do
         { key: 1, goals: [{ predicate: true, args: [] }] },
         { key: 3, goals: [{ predicate: true, args: [] }] },
       ])
+      $stdin = StringIO.new('N')
       $stdout = StringIO.new
     end
 
@@ -61,6 +62,19 @@ RSpec.describe Prolog do
         @hoge.ok?(1)
         expect($stdout.string).not_to include '[TRUE]'
         expect($stdout.string).to include '[UNIF] 1 <--> 3'
+      end
+    end
+
+    describe 'variable' do
+      before do
+        @X = Prolog::Expression::Variable.new
+      end
+
+      it 'backtracks and matches all facts' do
+        $stdin = StringIO.new("N\nN")
+        @hoge.ok?(@X)
+        expect($stdout.string).to match %r{\[UNIF\] .*Prolog::Variable.* <--> 1\n--> finish?}
+        expect($stdout.string).to match %r{\[UNIF\] .*Prolog::Variable.* <--> 3\n--> finish?}
       end
     end
   end
