@@ -10,16 +10,25 @@ module Prolog
     end
 
     def ok?(&)
-      return @predicate if boolean?
+      return false if false?
+      return next_ok? if true?
       return confirm(&) if confirm?
 
-      @predicate.ok?(*@args) { @next.nil? || @next.ok? }
+      @predicate.ok?(*@args) { next_ok? }
+    end
+
+    def next_ok?
+      @next.nil? || @next.ok?
     end
 
     private
 
-    def boolean?
-      @predicate.is_a?(TrueClass) || @predicate.is_a?(FalseClass)
+    def true?
+      @predicate.is_a?(TrueClass)
+    end
+
+    def false?
+      @predicate.is_a?(FalseClass)
     end
 
     def confirm?
@@ -29,7 +38,7 @@ module Prolog
     def confirm
       return yield if block_given?
 
-      Util::Stdout.new.confirm?
+      Util::Stdout.confirm?
     end
   end
 end

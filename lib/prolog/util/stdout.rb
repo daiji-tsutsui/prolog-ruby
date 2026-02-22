@@ -34,7 +34,7 @@ module Prolog
         '  ' * depth
       end
 
-      def confirm?
+      def self.confirm?
         print '--> finish? [y/N]'
         input = gets.chomp.downcase
         input == 'y'
