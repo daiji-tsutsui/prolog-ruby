@@ -3,9 +3,9 @@
 $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 require 'prolog'
 
-hoge = Prolog::Predicate.new(name: 'hoge') do |hoge|
-  hoge[1] = Prolog::Expression::Predicate.true
-  hoge[3] = Prolog::Expression::Predicate.true
+hoge = Prolog::Predicate.new(name: 'hoge') do |hoge, e|
+  hoge[1] = e.true
+  hoge[3] = e.true
 end
 
 hoge.ok?(1)

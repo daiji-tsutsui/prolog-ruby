@@ -3,9 +3,9 @@
 RSpec.describe Prolog do
   describe 'single unification with facts' do
     before do
-      @hoge = Prolog::Predicate.new(name: 'hoge') do |hoge|
-        hoge[1] = Prolog::Expression::Predicate.true
-        hoge[3] = Prolog::Expression::Predicate.true
+      @hoge = Prolog::Predicate.new(name: 'hoge') do |hoge, e|
+        hoge[1] = e.true
+        hoge[3] = e.true
       end
       $stdin = StringIO.new('N')
       $stdout = StringIO.new

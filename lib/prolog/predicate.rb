@@ -3,8 +3,9 @@
 module Prolog
   class Predicate
     def initialize(name:, &)
-      expr = Expression::Predicate.new
-      yield(expr)
+      e = Prolog::Expression::Predicate
+      expr = e.new
+      yield(expr, e)
       @rules = expr.rules.map { |r| Rule.new(**r) }
 
       predicate = self
