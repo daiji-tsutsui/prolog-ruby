@@ -4,10 +4,8 @@ $LOAD_PATH.unshift(File.expand_path('lib', __dir__))
 require 'prolog'
 
 hoge = Prolog::Predicate.new(name: 'hoge') do |hoge|
-  [
-    { key: 1, goals: [{ predicate: true, args: [] }] },
-    { key: 3, goals: [{ predicate: true, args: [] }] },
-  ]
+  hoge[1] = [{ predicate: true, args: [] }]
+  hoge[3] = [{ predicate: true, args: [] }]
 end
 
 # hoge = Prolog::Predicate.new(name: 'hoge') do |hoge|
@@ -17,15 +15,10 @@ end
 
 X1 = Prolog::Expression::Variable.new
 fuga = Prolog::Predicate.new(name: 'fuga') do |fuga|
-  [
-    { key: 1, goals: [{ predicate: hoge, args: [1] }] },
-    {
-      key: X1,
-      goals: [
-        { predicate: hoge, args: [X1] },
-        { predicate: hoge, args: [X1 - 2] },
-      ],
-    },
+  fuga[1] = [{ predicate: hoge, args: [1] }]
+  fuga[X1] = [
+    { predicate: hoge, args: [X1] },
+    { predicate: hoge, args: [X1 - 2] },
   ]
 end
 

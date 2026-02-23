@@ -4,8 +4,8 @@ module Prolog
   class Predicate
     def initialize(name:, &)
       expr = Expression::Predicate.new
-      rules = yield(expr)
-      @rules = rules.map { |r| Rule.new(**r) }
+      yield(expr)
+      @rules = expr.rules.map { |r| Rule.new(**r) }
 
       @substitutes = []
       @logger = Util::Stdout.new(name)
