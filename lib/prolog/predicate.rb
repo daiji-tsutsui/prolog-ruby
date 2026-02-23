@@ -3,15 +3,11 @@
 module Prolog
   class Predicate
     def initialize(name:, &)
-      e = Prolog::Expression::Predicate
-      expr = e.new
-      yield(expr, e)
+      expr = Expression::Predicate.new
+      yield(expr, expr.class)
       @rules = expr.rules.map { |r| Rule.new(**r) }
 
-      predicate = self
-      Expression::Predicate.define_singleton_method(name) do |*args|
-        [{ predicate: predicate, args: args }]
-      end
+      Expression::Predicate.register(name, self)
 
       @substitutes = []
       @logger = Util::Stdout.new(name)
