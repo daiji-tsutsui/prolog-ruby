@@ -70,6 +70,14 @@ RSpec.describe Prolog do
         @X = Prolog::Expression::Variable.new
       end
 
+      it 'truncates bactracking' do
+        $stdin = StringIO.new("y")
+        @hoge.ok?(@X)
+        expect($stdout.string).to match %r{\[UNIF\] .*Prolog::Variable.* <--> 1\n--> finish?}
+        expect($stdout.string).to match %r{\[TRUE\] hoge?.*Prolog::Variable.* @value=1}
+        expect($stdout.string).not_to match %r{\[UNIF\] .*Prolog::Variable.* <--> 3}
+      end
+
       it 'backtracks and matches all facts' do
         $stdin = StringIO.new("N\nN")
         @hoge.ok?(@X)
