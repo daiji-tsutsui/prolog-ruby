@@ -3,10 +3,12 @@
 RSpec.describe Prolog do
   describe 'single unification with facts' do
     before do
-      @hoge = Prolog::Predicate.new(name: 'hoge', rules: [
-        { key: 1, goals: [{ predicate: true, args: [] }] },
-        { key: 3, goals: [{ predicate: true, args: [] }] },
-      ])
+      @hoge = Prolog::Predicate.new(name: 'hoge') do |hoge|
+        [
+          { key: 1, goals: [{ predicate: true, args: [] }] },
+          { key: 3, goals: [{ predicate: true, args: [] }] },
+        ]
+      end
       $stdin = StringIO.new('N')
       $stdout = StringIO.new
     end

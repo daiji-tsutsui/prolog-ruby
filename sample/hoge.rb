@@ -3,10 +3,17 @@
 $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 require 'prolog'
 
-hoge = Prolog::Predicate.new(name: 'hoge', rules: [
-  { key: 1, goals: [{ predicate: true, args: [] }] },
-  { key: 3, goals: [{ predicate: true, args: [] }] },
-])
+hoge = Prolog::Predicate.new(name: 'hoge') do |hoge|
+  [
+    { key: 1, goals: [{ predicate: true, args: [] }] },
+    { key: 3, goals: [{ predicate: true, args: [] }] },
+  ]
+end
+
+# hoge = Prolog::Predicate.new(name: 'hoge') do |hoge|
+#   hoge[1] = true[]
+#   hoge[3] = true[]
+# end
 
 hoge.ok?(1)
 hoge.ok?(2)
