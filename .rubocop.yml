@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.4
@@ -19,10 +21,17 @@ Style/TrailingCommaInArrayLiteral:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: diff_comma
 
+Style/RegexpLiteral:
+  Enabled: false
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+
 Metrics/BlockLength:
   Exclude:
     - '*.gemspec'
     - 'spec/**/*'
 
-Metrics/MethodLength:
-  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+Naming/VariableName:
+  Exclude:
+    - 'spec/**/*'

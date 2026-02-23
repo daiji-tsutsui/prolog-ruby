@@ -71,7 +71,7 @@ RSpec.describe Prolog do
       end
 
       it 'truncates bactracking' do
-        $stdin = StringIO.new("y")
+        $stdin = StringIO.new('y')
         @hoge.ok?(@X)
         expect($stdout.string).to match %r{\[UNIF\] .*Prolog::Variable.* <--> 1\n--> finish?}
         expect($stdout.string).to match %r{\[TRUE\] hoge?.*Prolog::Variable.* @value=1}
