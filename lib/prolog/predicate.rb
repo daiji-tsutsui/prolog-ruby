@@ -7,6 +7,11 @@ module Prolog
       yield(expr)
       @rules = expr.rules.map { |r| Rule.new(**r) }
 
+      predicate = self
+      Expression::Predicate.define_singleton_method(name) do |*args|
+        [{ predicate: predicate, args: args }]
+      end
+
       @substitutes = []
       @logger = Util::Stdout.new(name)
     end
