@@ -3,7 +3,7 @@
 $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 require 'prolog'
 
-hoge = Prolog::Predicate.new('hoge', [
+hoge = Prolog::Predicate.new(name: 'hoge', rules: [
   { key: 1, goals: [{ predicate: true, args: [] }] },
   { key: 3, goals: [{ predicate: true, args: [] }] },
 ])

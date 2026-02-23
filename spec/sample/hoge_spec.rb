@@ -3,7 +3,7 @@
 RSpec.describe Prolog do
   describe 'single unification with facts' do
     before do
-      @hoge = Prolog::Predicate.new('hoge', [
+      @hoge = Prolog::Predicate.new(name: 'hoge', rules: [
         { key: 1, goals: [{ predicate: true, args: [] }] },
         { key: 3, goals: [{ predicate: true, args: [] }] },
       ])

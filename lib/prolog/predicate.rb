@@ -2,7 +2,7 @@
 
 module Prolog
   class Predicate
-    def initialize(name, rules)
+    def initialize(name:, rules:)
       @rules = rules.map { |r| Rule.new(**r) }
       @substitutes = []
       @logger = Util::Stdout.new(name)
