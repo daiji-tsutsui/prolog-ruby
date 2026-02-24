@@ -9,7 +9,8 @@ module Prolog
       end
 
       def build
-        Prolog::Rule.new(key: @key, goals: @goals)
+        goals = @goals.map(&:build)
+        Prolog::Rule.new(key: @key, goals: goals)
       end
     end
   end

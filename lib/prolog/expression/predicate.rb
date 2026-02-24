@@ -15,21 +15,17 @@ module Prolog
         @rules.map(&:build)
       end
 
-      def &(other)
-        concat(other)
-      end
-
       def self.true
-        [{ predicate: true, args: [] }]
+        [Expression::Goal.new(predicate: true)]
       end
 
       def self.false
-        [{ predicate: false, args: [] }]
+        [Expression::Goal.new(predicate: false)]
       end
 
       def self.register(name, predicate)
         define_singleton_method(name) do |*args|
-          [{ predicate: predicate, args: args }]
+          [Expression::Goal.new(predicate: predicate, args: args)]
         end
       end
     end
