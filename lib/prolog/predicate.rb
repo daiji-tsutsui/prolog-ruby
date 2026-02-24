@@ -5,7 +5,7 @@ module Prolog
     def initialize(name:, &)
       expr = Expression::Predicate.new
       yield(expr, expr.class)
-      @rules = expr.rules.map { |r| Rule.new(**r) }
+      @rules = expr.rules
 
       Expression::Predicate.register(name, self)
 

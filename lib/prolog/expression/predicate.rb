@@ -3,14 +3,16 @@
 module Prolog
   module Expression
     class Predicate
-      attr_reader :rules
-
       def initialize
         @rules = []
       end
 
       def []=(key, goals)
-        @rules.push({ key: key, goals: goals })
+        @rules.push Expression::Rule.new(key: key, goals: goals)
+      end
+
+      def rules
+        @rules.map(&:build)
       end
 
       def &(other)
