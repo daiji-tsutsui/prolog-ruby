@@ -36,18 +36,15 @@ module Prolog
     def match(expected, tested_rule)
       tested = tested_rule.key
 
-      expected = expected.value if expected.is_a?(Expression::Variable)
-      tested = tested.value if tested.is_a?(Expression::Variable)
-
-      if expected.is_a?(Variable)
-        @substitutes.push(expected)
-        @logger.match expected, tested
-        return expected.match(tested)
-      end
-      # 1 <--> X に未対応
-      # cutを先に実装しないと危険
-
       @logger.match expected, tested
+      if expected.is_a?(Variable) || expected.is_a?(Expression::Variable)
+        @substitutes.push(expected)
+        return expected.match(tested)
+      elsif tested.is_a?(Variable) || tested.is_a?(Expression::Variable)
+        @substitutes.push(tested)
+        return tested.match(expected)
+      end
+
       expected == tested
     end
 
