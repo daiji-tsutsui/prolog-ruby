@@ -11,9 +11,10 @@ end
 X1 = Prolog::Expression::Variable.new
 fuga = Prolog::Predicate.new(name: 'fuga') do |fuga, e|
   fuga[1] = e.hoge(1)
-  fuga[X1] = e.hoge(X1) & e.hoge(X1 - 2)
+  fuga[:X] = e.hoge(e.X) & e.hoge(e.X - 2)
 end
 
 fuga.ok?(1)
+
 Y = Prolog::Variable.new
 fuga.ok?(Y)

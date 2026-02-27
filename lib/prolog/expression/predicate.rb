@@ -3,6 +3,8 @@
 module Prolog
   module Expression
     class Predicate
+      @vars = {}
+
       def initialize
         @rules = []
       end
@@ -27,6 +29,15 @@ module Prolog
         define_singleton_method(name) do |*args|
           [Expression::Goal.new(predicate: predicate, args: args)]
         end
+      end
+
+      def self.method_missing(name, *args)
+        super unless name.match?(/^[A-Z]/)
+
+        return @vars[name] if @vars.key?(name)
+
+        var = Expression::Variable.new
+        @vars[name] = var
       end
     end
   end
