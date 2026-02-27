@@ -13,8 +13,8 @@ module Prolog
         return true
       end
 
-      return match_variable(@value, value) if @value.is_a?(Variable)
-      return match_variable(value, @value) if value.is_a?(Variable)
+      return match_variable(@value, value) if var?(@value)
+      return match_variable(value, @value) if var?(value)
 
       @value == value
     end
@@ -34,6 +34,10 @@ module Prolog
     def match_variable(variable, value)
       @substitutes.push(variable)
       variable.match(value)
+    end
+
+    def var?(obj)
+      obj.is_a?(Variable)
     end
   end
 end

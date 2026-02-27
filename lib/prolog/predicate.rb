@@ -49,7 +49,7 @@ module Prolog
     end
 
     def var?(obj)
-      obj.is_a?(Variable) || obj.is_a?(Expression::Variable)
+      obj.is_a?(Variable)
     end
 
     def backtrack

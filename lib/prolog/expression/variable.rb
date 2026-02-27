@@ -9,22 +9,12 @@ module Prolog
         @value = Prolog::Variable.new
       end
 
-      def match(value)
-        @value.match(value)
-      end
-
-      def backtrack
-        @value.backtrack
+      def build
+        @value
       end
 
       def -(_other)
         Expression::Variable.new
-      end
-
-      private
-
-      def to_s
-        @value.to_s
       end
     end
   end

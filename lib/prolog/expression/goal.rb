@@ -9,7 +9,22 @@ module Prolog
       end
 
       def build
-        { predicate: @predicate, args: @args }
+        {
+          predicate: @predicate,
+          args: @args.each { |arg| build_var(arg) },
+        }
+      end
+
+      private
+
+      def build_var(arg)
+        return arg.build if var?(arg)
+
+        arg
+      end
+
+      def var?(arg)
+        arg.is_a?(Expression::Variable)
       end
     end
   end
