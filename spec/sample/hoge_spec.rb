@@ -67,7 +67,7 @@ RSpec.describe Prolog do
 
     describe 'variable' do
       before do
-        @X = Prolog::Expression::Variable.new
+        @X = Prolog::Variable.new
       end
 
       it 'truncates bactracking' do
