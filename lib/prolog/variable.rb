@@ -2,16 +2,20 @@
 
 module Prolog
   class Variable
-    def initialize
+    def initialize(bind: nil)
       @value = nil
+      @bind = bind
+
       @substitutes = []
     end
 
     def match(value)
-      if @value.nil?
+      if @value.nil? && @bind.nil?
         @value = value
         return true
       end
+
+      @value = @bind.call
 
       return match_variable(@value, value) if var?(@value)
       return match_variable(value, @value) if var?(value)

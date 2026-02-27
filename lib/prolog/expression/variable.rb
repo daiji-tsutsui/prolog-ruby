@@ -3,18 +3,16 @@
 module Prolog
   module Expression
     class Variable
-      attr_reader :value
-
-      def initialize
-        @value = Prolog::Variable.new
+      def initialize(bind: nil)
+        @value = Prolog::Variable.new(bind: bind)
       end
 
       def build
         @value
       end
 
-      def -(_other)
-        Expression::Variable.new
+      def -(other)
+        Expression::Variable.new(bind: -> { @value - other })
       end
     end
   end
