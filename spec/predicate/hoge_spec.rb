@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Prolog do
-  describe 'single unification with facts' do
+RSpec.describe Prolog::Predicate do
+  describe '[hoge] single unification with facts' do
     before do
       @hoge = Prolog::Predicate.new(name: 'hoge') do |hoge, e|
         hoge[1] = e.true
