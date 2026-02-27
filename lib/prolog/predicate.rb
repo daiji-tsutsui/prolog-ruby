@@ -37,15 +37,19 @@ module Prolog
       tested = tested_rule.key
 
       @logger.match expected, tested
-      if expected.is_a?(Variable) || expected.is_a?(Expression::Variable)
-        @substitutes.push(expected)
-        return expected.match(tested)
-      elsif tested.is_a?(Variable) || tested.is_a?(Expression::Variable)
-        @substitutes.push(tested)
-        return tested.match(expected)
-      end
+      return match_variable(expected, tested) if var?(expected)
+      return match_variable(tested, expected) if var?(tested)
 
       expected == tested
+    end
+
+    def match_variable(variable, value)
+      @substitutes.push(variable)
+      variable.match(value)
+    end
+
+    def var?(obj)
+      obj.is_a?(Variable) || obj.is_a?(Expression::Variable)
     end
 
     def backtrack
