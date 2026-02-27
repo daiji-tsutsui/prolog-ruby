@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+require 'prolog'
+
+_hoge = Prolog::Predicate.new(name: 'hoge') do |hoge, e|
+  hoge[1] = e.true
+  hoge[3] = e.true
+end
+
+X1 = Prolog::Expression::Variable.new
+fuga = Prolog::Predicate.new(name: 'fuga') do |fuga, e|
+  fuga[1] = e.hoge(1)
+  fuga[X1] = e.hoge(X1) & e.hoge(X1 - 2)
+end
+
+fuga.ok?(1)
+Y = Prolog::Variable.new
+fuga.ok?(Y)
