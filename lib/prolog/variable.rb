@@ -41,5 +41,13 @@ module Prolog
     def var?(obj)
       obj.is_a?(Variable)
     end
+
+    def name
+      "Var_#{object_id}"
+    end
+
+    def to_s
+      "#{name}(#{@value})"
+    end
   end
 end
