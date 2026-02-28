@@ -26,6 +26,12 @@ module Prolog
         puts indent + "[UNIF] #{expected} <--> #{tested}"
       end
 
+      def backtrack(substitutes)
+        return if substitutes.empty?
+
+        puts indent + "  !!BACKTRACK!! Reset #{substitutes.map(&:to_s)}"
+      end
+
       def bind(result, bind)
         puts indent + "[BIND] #{result} (#{bind.inspect})"
       end

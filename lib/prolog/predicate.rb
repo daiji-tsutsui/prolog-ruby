@@ -53,6 +53,7 @@ module Prolog
     end
 
     def backtrack
+      @logger.backtrack(@substitutes)
       @substitutes.each(&:backtrack)
       @substitutes = []
     end
