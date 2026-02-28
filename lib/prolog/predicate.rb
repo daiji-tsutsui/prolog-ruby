@@ -44,7 +44,7 @@ module Prolog
     end
 
     def match_variable(variable, value)
-      @substitutes.push(variable) unless variable.has_value?
+      @substitutes.push(variable) unless variable.value?
       variable.match(value)
     end
 
