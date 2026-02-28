@@ -8,6 +8,7 @@ module Prolog
 
       @substitutes = []
       @logger = Util::Stdout.new(name)
+      @caller_method = nil
     end
 
     def value?
@@ -29,8 +30,8 @@ module Prolog
       @value == value
     end
 
-    def backtrack
-      @substitutes.each(&:backtrack)
+    def backtrack!
+      @substitutes.each(&:backtrack!)
       @substitutes = []
       @value = nil
     end
@@ -53,7 +54,7 @@ module Prolog
     end
 
     def match_variable(variable, value)
-      @substitutes.push(variable)
+      @substitutes.push(variable) unless variable.value?
       variable.match(value)
     end
 

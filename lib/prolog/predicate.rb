@@ -9,12 +9,14 @@ module Prolog
 
       Expression::Predicate.register(name, self)
 
-      @substitutes = []
+      @session = Session.new
       @logger = Util::Stdout.new(name)
     end
 
     # Some rule is OK
     def ok?(value, &)
+      @session.append!(Session.new)
+
       @logger.test value
       @rules.each do |rule|
         matched = match(value, rule)
@@ -29,6 +31,8 @@ module Prolog
       end
       @logger.false value
       false
+    ensure
+      @session.pop!
     end
 
     private
@@ -44,7 +48,7 @@ module Prolog
     end
 
     def match_variable(variable, value)
-      @substitutes.push(variable) unless variable.value?
+      @session.substitute!(variable)
       variable.match(value)
     end
 
@@ -53,9 +57,7 @@ module Prolog
     end
 
     def backtrack
-      @logger.backtrack(@substitutes)
-      @substitutes.each(&:backtrack)
-      @substitutes = []
+      @session.backtrack!
     end
   end
 end

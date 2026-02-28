@@ -10,5 +10,6 @@ module Prolog
   require_relative 'prolog/variable'
   require_relative 'prolog/goal'
   require_relative 'prolog/rule'
+  require_relative 'prolog/session'
   require_relative 'prolog/predicate'
 end
