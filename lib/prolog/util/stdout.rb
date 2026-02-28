@@ -26,6 +26,10 @@ module Prolog
         puts indent + "[UNIF] #{expected} <--> #{tested}"
       end
 
+      def bind(result, bind)
+        puts indent + "[BIND] #{result} (#{bind.inspect})"
+      end
+
       def indent
         depth = caller.count { |line| line =~ /#{@caller}#ok/ }
         '  ' * depth

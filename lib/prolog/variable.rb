@@ -7,11 +7,12 @@ module Prolog
       @bind = bind
 
       @substitutes = []
+      @logger = Util::Stdout.new(name)
     end
 
     def match(value)
       if @value.nil?
-        @value = @bind ? @bind.call : value
+        @value = @bind ? resolve_bind : value
         return true
       end
 
@@ -36,6 +37,12 @@ module Prolog
     end
 
     private
+
+    def resolve_bind
+      res = @bind.call
+      @logger.bind(res, bind)
+      res
+    end
 
     def match_variable(variable, value)
       @substitutes.push(variable)
