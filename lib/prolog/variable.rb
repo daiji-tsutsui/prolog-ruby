@@ -10,12 +10,10 @@ module Prolog
     end
 
     def match(value)
-      if @value.nil? && @bind.nil?
-        @value = value
+      if @value.nil?
+        @value = @bind ? @bind.call : value
         return true
       end
-
-      @value = @bind.call
 
       return match_variable(@value, value) if var?(@value)
       return match_variable(value, @value) if var?(value)

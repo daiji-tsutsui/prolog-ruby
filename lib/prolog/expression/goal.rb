@@ -11,7 +11,7 @@ module Prolog
       def build
         {
           predicate: @predicate,
-          args: @args.each { |arg| build_var(arg) },
+          args: @args.map { |arg| build_var(arg) },
         }
       end
 

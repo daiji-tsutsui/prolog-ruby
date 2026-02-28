@@ -4,6 +4,7 @@ module Prolog
   module Expression
     class Goals < Array
       def initialize(predicate:, args: [])
+        super()
         self << Expression::Goal.new(predicate:, args:)
       end
 
