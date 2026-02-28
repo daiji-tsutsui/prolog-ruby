@@ -10,7 +10,7 @@ module Prolog
       @logger = Util::Stdout.new(name)
     end
 
-    def has_value?
+    def value?
       !@value.nil?
     end
 

@@ -43,6 +43,10 @@ module Prolog
         var = Expression::Variable.new
         @vars[name] = var
       end
+
+      def self.respond_to_missing?(sym, include_private)
+        sym =~ /^[A-Z]/ ? true : super
+      end
     end
   end
 end

@@ -19,7 +19,7 @@ module Prolog
       end
 
       def true(value)
-        puts indent + "[TRUE] #{@name}?(( #{value.to_s} ))"
+        puts indent + "[TRUE] #{@name}?(( #{value} ))"
       end
 
       def match(expected, tested)
