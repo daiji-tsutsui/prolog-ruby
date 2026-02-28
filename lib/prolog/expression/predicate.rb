@@ -18,16 +18,16 @@ module Prolog
       end
 
       def self.true
-        [Expression::Goal.new(predicate: true)]
+        Expression::Goals.new(predicate: true)
       end
 
       def self.false
-        [Expression::Goal.new(predicate: false)]
+        Expression::Goals.new(predicate: false)
       end
 
       def self.register(name, predicate)
         define_singleton_method(name) do |*args|
-          [Expression::Goal.new(predicate: predicate, args: args)]
+          Expression::Goals.new(predicate: predicate, args: args)
         end
       end
 
