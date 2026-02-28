@@ -31,6 +31,10 @@ module Prolog
       @value - other
     end
 
+    def to_s
+      "#{name}(#{@value || '_'})"
+    end
+
     private
 
     def match_variable(variable, value)
@@ -44,10 +48,6 @@ module Prolog
 
     def name
       "Var_#{object_id}"
-    end
-
-    def to_s
-      "#{name}(#{@value})"
     end
   end
 end
