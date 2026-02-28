@@ -10,6 +10,10 @@ module Prolog
       @logger = Util::Stdout.new(name)
     end
 
+    def has_value?
+      !@value.nil?
+    end
+
     def match(value)
       if @value.nil?
         @value = @bind ? resolve_bind : value

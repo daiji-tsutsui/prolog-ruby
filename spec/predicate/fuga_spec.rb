@@ -27,6 +27,7 @@ RSpec.describe Prolog::Predicate do
       subject { @fuga.ok?(1) }
       it 'returns OK for the rule fuga(1) -> hoge(1)' do
         $stdin = StringIO.new('y')
+
         is_expected.to be_truthy
         expect($stdout.string).to include "[UNIF] 1 <--> 1\n--> finish? [y/N]"
         expect($stdout.string).to include '[TRUE] hoge?(( 1 ))'
@@ -38,10 +39,11 @@ RSpec.describe Prolog::Predicate do
       subject { @fuga.ok?(3) }
       it 'returns OK for the rule fuga(X) -> hoge(X) && hoge(X - 2)' do
         $stdin = StringIO.new('y')
+
         is_expected.to be_truthy
-        expect($stdout.string).to match %r{\[UNIF\] 3 <--> .*Prolog::Variable.*\n--> finish?}
-        expect($stdout.string).to include '[TRUE] hoge?(( 3 ))'
-        expect($stdout.string).to include '[TRUE] hoge?(( 1 ))'
+        expect($stdout.string).to match %r{\[UNIF\] 3 <--> Var_\d+\(_\)}
+        expect($stdout.string).to include %r{\[TRUE\] hoge\?\(\( Var_\d+\(3\) \)\)}
+        expect($stdout.string).to include %r{\[TRUE\] hoge\?\(\( Var_\d+\(1\) \)\)}
         expect($stdout.string).to include '[TRUE] fuga?(( 3 ))'
       end
     end
@@ -50,7 +52,10 @@ RSpec.describe Prolog::Predicate do
       subject { @fuga.ok?(2) }
       it 'returns NOT OK for all the rules' do
         $stdin = StringIO.new('y')
+
         is_expected.to be_falsy
+        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(2\) <--> 1}
+        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(2\) <--> 3}
         expect($stdout.string).to include '[FALSE] fuga?(2) <--'
       end
     end

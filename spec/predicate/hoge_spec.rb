@@ -73,16 +73,16 @@ RSpec.describe Prolog::Predicate do
       it 'truncates bactracking' do
         $stdin = StringIO.new('y')
         @hoge.ok?(@X)
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 1\n--> finish?}
-        expect($stdout.string).to match %r{\[TRUE\] hoge?.*Prolog::Variable.* @value=1}
+        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 1\n--> finish\?}
+        expect($stdout.string).to match %r{\[TRUE\] hoge\?\(\( Var_\d+\(1\) \)\)}
         expect($stdout.string).not_to match %r{\[UNIF\] Var.* <--> 3}
       end
 
       it 'backtracks and matches all facts' do
         $stdin = StringIO.new("N\nN")
         @hoge.ok?(@X)
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 1\n--> finish?}
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 3\n--> finish?}
+        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 1\n--> finish\?}
+        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 3\n--> finish\?}
       end
     end
   end
