@@ -20,17 +20,12 @@ module Prolog
       @logger.test value
       @rules.each do |rule|
         matched = match(value, rule)
-        is_ok = matched && rule.ok?(&)
-
-        if is_ok
-          @logger.true value
-          return true
-        end
+        return true?(value) if matched && rule.ok?(&)
 
         backtrack
       end
-      @logger.false value
-      false
+
+      false?(value)
     ensure
       @session.pop!
     end
@@ -54,6 +49,16 @@ module Prolog
 
     def var?(obj)
       obj.is_a?(Variable)
+    end
+
+    def true?(value)
+      @logger.true value
+      true
+    end
+
+    def false?(value)
+      @logger.false value
+      false
     end
 
     def backtrack
