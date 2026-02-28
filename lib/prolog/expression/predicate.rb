@@ -31,6 +31,10 @@ module Prolog
         end
       end
 
+      def self.clear
+        @vars = {}
+      end
+
       def self.method_missing(name, *args)
         super unless name.match?(/^[A-Z]/)
 

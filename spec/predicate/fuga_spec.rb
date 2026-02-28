@@ -3,15 +3,16 @@
 RSpec.describe Prolog::Predicate do
   describe '[fuga] predicate defined with a variable' do
     before do
+      Prolog::Expression::Predicate.clear
+
       _hoge = Prolog::Predicate.new(name: 'hoge') do |hoge, e|
         hoge[1] = e.true
         hoge[3] = e.true
       end
 
-      @X1 = Prolog::Expression::Variable.new
       @fuga = Prolog::Predicate.new(name: 'fuga') do |fuga, e|
         fuga[1] = e.hoge(1)
-        fuga[@X1] = e.hoge(@X1) & e.hoge(@X1 - 2)
+        fuga[e.X] = e.hoge(e.X) & e.hoge(e.X - 2)
       end
 
       $stdin = StringIO.new('N')
