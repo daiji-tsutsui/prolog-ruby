@@ -15,8 +15,11 @@ module Prolog
     end
 
     def match(value)
+      @caller_method = caller_locations[1].label
+      @value = resolve_bind if @bind
+
       if @value.nil?
-        @value = @bind ? resolve_bind : value
+        @value = value
         return true
       end
 
@@ -44,7 +47,8 @@ module Prolog
 
     def resolve_bind
       res = @bind.call
-      @logger.bind(res, bind)
+      @logger.caller = @caller_method.split('#').first
+      @logger.bind(res)
       res
     end
 

@@ -3,6 +3,8 @@
 module Prolog
   module Util
     class Stdout
+      attr_writer :caller
+
       def initialize(name)
         @name = name
 
@@ -32,8 +34,8 @@ module Prolog
         puts indent + "  !!BACKTRACK!! Reset #{substitutes.map(&:to_s)}"
       end
 
-      def bind(result, bind)
-        puts indent + "[BIND] #{result} (#{bind.inspect})"
+      def bind(value)
+        puts indent + "[BIND] #{@name}(#{value})"
       end
 
       def indent

@@ -11,14 +11,14 @@ module Prolog
 
     def ok?(&)
       return false if false?
-      return next_ok? if true?
+      return next_ok?(&) if true?
       return confirm(&) if confirm?
 
       @predicate.ok?(*@args) { next_ok? }
     end
 
-    def next_ok?
-      @next.nil? || @next.ok?
+    def next_ok?(&)
+      @next.nil? || @next.ok?(&)
     end
 
     private
@@ -35,7 +35,7 @@ module Prolog
       @predicate == :confirm
     end
 
-    def confirm
+    def confirm(&)
       return yield if block_given?
 
       Util::Stdout.confirm?
