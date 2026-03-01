@@ -2,11 +2,7 @@
 
 module Prolog
   require_relative 'prolog/util/stdout'
-  require_relative 'prolog/expression/variable'
-  require_relative 'prolog/expression/goal'
-  require_relative 'prolog/expression/goals'
-  require_relative 'prolog/expression/rule'
-  require_relative 'prolog/expression/predicate'
+  require_relative 'prolog/expression'
   require_relative 'prolog/variable'
   require_relative 'prolog/goal'
   require_relative 'prolog/rule'

@@ -3,7 +3,7 @@
 RSpec.describe Prolog::Predicate do
   describe '[fuga] predicate defined with a variable' do
     before do
-      Prolog::Expression::Predicate.clear
+      Prolog::Expression.clear_vars
 
       _hoge = Prolog::Predicate.new(name: 'hoge') do |hoge, e|
         hoge[1] = e.true

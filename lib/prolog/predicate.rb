@@ -4,10 +4,10 @@ module Prolog
   class Predicate
     def initialize(name:, &)
       expr = Expression::Predicate.new
-      yield(expr, expr.class)
+      yield(expr, Expression)
       @rules = expr.rules
 
-      Expression::Predicate.register(name, self)
+      Expression.register(name, self)
 
       @session = Session.new
       @logger = Util::Stdout.new(name)
