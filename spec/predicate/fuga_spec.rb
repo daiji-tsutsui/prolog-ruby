@@ -31,18 +31,18 @@ RSpec.describe Prolog::Predicate do
         $stdin = StringIO.new('y')
 
         is_expected.to be_truthy
-        expect($stdout.string).to include "[UNIF] 1 <--> 1\n--> finish? [y/N]"
-        expect($stdout.string).to include '[TRUE] hoge?(( 1 ))'
-        expect($stdout.string).to include '[TRUE] fuga?(( 1 ))'
+        expect($stdout.string).to match pattern_finish(pattern_unif(1, 1))
+        expect($stdout.string).to match pattern_true('hoge', 1)
+        expect($stdout.string).to match pattern_true('fuga', 1)
       end
 
       it 'returns NOT OK for the rule fuga(1) -> hoge(X) & hoge(X - 2)' do
         $stdin = StringIO.new('N')
 
         is_expected.to be_falsy
-        expect($stdout.string).to match %r{\[UNIF\] 1 <--> Var_\d+\(_\)}
-        expect($stdout.string).to match %r{\[FALSE\] hoge\?\(Var_\d+\(1\)\) <--}
-        expect($stdout.string).to include '[FALSE] fuga?(1) <--'
+        expect($stdout.string).to match pattern_unif(1, { var: nil })
+        expect($stdout.string).to match pattern_false('hoge', { var: 1 })
+        expect($stdout.string).to match pattern_false('fuga', 1)
       end
     end
 
@@ -53,20 +53,20 @@ RSpec.describe Prolog::Predicate do
         $stdin = StringIO.new('y')
 
         is_expected.to be_truthy
-        expect($stdout.string).to match %r{\[UNIF\] 3 <--> Var_\d+\(_\)}
-        expect($stdout.string).to match %r{\[TRUE\] hoge\?\(\( Var_\d+\(3\) \)\)}
-        expect($stdout.string).to match %r{\[TRUE\] hoge\?\(\( Var_\d+\(1\) \)\)}
-        expect($stdout.string).to include '[TRUE] fuga?(( 3 ))'
+        expect($stdout.string).to match pattern_unif(3, { var: nil })
+        expect($stdout.string).to match pattern_true('hoge', { var: 1 })
+        expect($stdout.string).to match pattern_true('hoge', { var: 3 })
+        expect($stdout.string).to match pattern_true('fuga', 3)
       end
 
       it 'returns NOT OK' do
         $stdin = StringIO.new('N')
 
         is_expected.to be_falsy
-        expect($stdout.string).to match %r{\[UNIF\] 3 <--> Var_\d+\(_\)}
-        expect($stdout.string).to match %r{\[FALSE\] hoge\?\(Var_\d+\(_\)\)}
-        expect($stdout.string).to match %r{\[FALSE\] hoge\?\(Var_\d+\(3\)\)}
-        expect($stdout.string).to include '[FALSE] fuga?(3) <--'
+        expect($stdout.string).to match pattern_unif(3, { var: nil })
+        expect($stdout.string).to match pattern_false('hoge', { var: nil })
+        expect($stdout.string).to match pattern_false('hoge', { var: 3 })
+        expect($stdout.string).to match pattern_false('fuga', 3)
       end
     end
 
@@ -77,43 +77,43 @@ RSpec.describe Prolog::Predicate do
         $stdin = StringIO.new('y')
 
         is_expected.to be_falsy
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(2\) <--> 1}
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(2\) <--> 3}
-        expect($stdout.string).to include '[FALSE] fuga?(2) <--'
+        expect($stdout.string).to match pattern_unif({ var: 2 }, 1)
+        expect($stdout.string).to match pattern_unif({ var: 2 }, 3)
+        expect($stdout.string).to match pattern_false('fuga', 2)
       end
     end
 
     describe 'fuga(X)' do
       subject do
-        X = Prolog::Variable.new
-        @fuga.ok?(X)
+        @X = Prolog::Variable.new
+        @fuga.ok?(@X)
       end
 
       it 'returns OK for the rule fuga(1) -> hoge(1)' do
         $stdin = StringIO.new('y')
 
         is_expected.to be_truthy
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 1}
-        expect($stdout.string).to include "[UNIF] 1 <--> 1\n--> finish? [y/N]"
-        expect($stdout.string).to include '[TRUE] hoge?(( 1 ))'
-        expect($stdout.string).to match %r{\[TRUE\] fuga\?\(\( Var_\d+\(1\) \)\)}
+        expect($stdout.string).to match pattern_unif({ var: nil }, 1)
+        expect($stdout.string).to match pattern_finish(pattern_unif(1, 1))
+        expect($stdout.string).to match pattern_true('hoge', 1)
+        expect($stdout.string).to match pattern_true('fuga', { var: 1 })
       end
 
       it 'returns OK for the rule fuga(X) -> hoge(X) && hoge(X - 2)' do
         $stdin = StringIO.new("N\ny")
 
         is_expected.to be_truthy
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> Var_\d+\(_\)}
-        expect($stdout.string).to match %r{\[TRUE\] hoge\?\(\( Var_\d+\(1\) \)\)}
-        expect($stdout.string).to match %r{\[TRUE\] hoge\?\(\( Var_\d+\(3\) \)\)}
-        expect($stdout.string).to match %r{\[TRUE\] fuga\?\(\( Var_\d+\(Var_\d+\(_\)\) \)\)}
+        expect($stdout.string).to match pattern_unif({ var: nil }, { var: nil })
+        expect($stdout.string).to match pattern_true('hoge', { var: 1 })
+        expect($stdout.string).to match pattern_true('hoge', { var: 3 })
+        expect($stdout.string).to match pattern_true('fuga', { var: { var: nil } })
       end
 
       it 'returns NOT OK' do
         $stdin = StringIO.new("N\nN")
 
         is_expected.to be_falsy
-        expect($stdout.string).to match %r{\[FALSE\] fuga\?\(Var_\d+\(_\)\)}
+        expect($stdout.string).to match pattern_false('fuga', { var: nil })
       end
     end
   end

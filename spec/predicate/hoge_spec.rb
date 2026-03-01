@@ -35,9 +35,9 @@ RSpec.describe Prolog::Predicate do
 
       it 'truncates backtracking' do
         @hoge.ok?(1)
-        expect($stdout.string).to include '[TRUE] hoge?(( 1 ))'
-        expect($stdout.string).not_to include '[UNIF] 1 <--> 3'
-        expect($stdout.string).not_to include '[FALSE] hoge?(1)'
+        expect($stdout.string).to match pattern_true('hoge', 1)
+        expect($stdout.string).not_to match pattern_unif(1, 3)
+        expect($stdout.string).not_to include '[FALSE]'
       end
     end
 
@@ -61,7 +61,7 @@ RSpec.describe Prolog::Predicate do
       it 'backtracks' do
         @hoge.ok?(1)
         expect($stdout.string).not_to include '[TRUE]'
-        expect($stdout.string).to include '[UNIF] 1 <--> 3'
+        expect($stdout.string).to match pattern_unif(1, 3)
       end
     end
 
@@ -73,16 +73,16 @@ RSpec.describe Prolog::Predicate do
       it 'truncates bactracking' do
         $stdin = StringIO.new('y')
         @hoge.ok?(@X)
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 1\n--> finish\?}
-        expect($stdout.string).to match %r{\[TRUE\] hoge\?\(\( Var_\d+\(1\) \)\)}
-        expect($stdout.string).not_to match %r{\[UNIF\] Var.* <--> 3}
+        expect($stdout.string).to match pattern_finish(pattern_unif({ var: nil }, 1))
+        expect($stdout.string).to match pattern_true('hoge', { var: 1 })
+        expect($stdout.string).not_to match pattern_unif({ var: nil }, 3)
       end
 
       it 'backtracks and matches all facts' do
         $stdin = StringIO.new("N\nN")
         @hoge.ok?(@X)
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 1\n--> finish\?}
-        expect($stdout.string).to match %r{\[UNIF\] Var_\d+\(_\) <--> 3\n--> finish\?}
+        expect($stdout.string).to match pattern_finish(pattern_unif({ var: nil }, 1))
+        expect($stdout.string).to match pattern_finish(pattern_unif({ var: nil }, 3))
       end
     end
   end
