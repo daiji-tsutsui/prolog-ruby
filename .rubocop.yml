@@ -21,6 +21,9 @@ Style/TrailingCommaInArrayLiteral:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: diff_comma
 
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: diff_comma
+
 Style/RegexpLiteral:
   Enabled: false
 
