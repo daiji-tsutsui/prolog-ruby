@@ -106,7 +106,7 @@ RSpec.describe Prolog::Predicate do
         expect($stdout.string).to match pattern_unif({ var: nil }, { var: nil })
         expect($stdout.string).to match pattern_true('hoge', { var: 1 })
         expect($stdout.string).to match pattern_true('hoge', { var: 3 })
-        expect($stdout.string).to match pattern_true('fuga', { var: { var: nil } })
+        expect($stdout.string).to match pattern_true('fuga', { var: { var: 3 } })
       end
 
       it 'returns NOT OK' do

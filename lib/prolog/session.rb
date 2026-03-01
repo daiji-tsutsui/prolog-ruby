@@ -7,6 +7,7 @@ module Prolog
     def initialize
       @next = nil
       @substitutes = []
+      @stash = []
 
       @logger = Util::Stdout.new('session')
       caller_method = caller_locations[1].label
@@ -24,8 +25,13 @@ module Prolog
 
       return @next.pop! unless @next.next.nil?
 
-      @next.backtrack!
+      @stash.push @next
       @next = nil
+    end
+
+    def clear!
+      @stash.each(&:backtrack!)
+      @stash = []
     end
 
     def substitute!(variable)

@@ -28,6 +28,7 @@ module Prolog
       false?(value)
     ensure
       @session.pop!
+      @session.clear! unless block_given?
     end
 
     private
